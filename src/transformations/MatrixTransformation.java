@@ -171,8 +171,18 @@ public class MatrixTransformation {
         DecimalFormat df = new DecimalFormat("0.000");
         df.setRoundingMode(RoundingMode.HALF_UP);
 
-        return "[" + df.format(tl) + " " + df.format(tr) + "]" + "\n" +
-               "[" + df.format(bl) + " " + df.format(br) + "]";
+        String tlS = (df.format(tl).equals("-0.000"))? "0.000" : df.format(tl);
+        String trS = (df.format(tr).equals("-0.000"))? "0.000" : df.format(tr);
+        String blS = (df.format(bl).equals("-0.000"))? "0.000" : df.format(bl);
+        String brS = (df.format(br).equals("-0.000"))? "0.000" : df.format(br);
+
+        int firstColLength  = Math.max(tlS.length(), blS.length());
+        int secondColLength = Math.max(trS.length(), brS.length());
+
+        return "[" + tlS + " ".repeat(firstColLength  - tlS.length() + 1) +
+                     " ".repeat(secondColLength - trS.length()) + trS + "]" + "\n" +
+               "[" + blS + " ".repeat(firstColLength  - blS.length() + 1) +
+                     " ".repeat(secondColLength - brS.length()) + brS + "]";
     }
 
     /**
